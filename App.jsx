@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import Dashboard from './components/Dashboard.jsx';
-import PhoneStages from './components/PhoneStages.jsx';
-import LotStages from './components/LotStages.jsx';
-import { initialLeadDetails, lotChecklist, phoneChecklist } from './constants/data.js';
-import { generateGeminiContentApi } from './services/gemini.js';
-import { copyToClipboard } from './utils/helpers.js';
+import Dashboard from './Dashboard.jsx';
+import PhoneStages from './PhoneStages.jsx';
+import LotStages from './LotStages.jsx';
+import { initialLeadDetails, lotChecklist, phoneChecklist } from './data.js';
+import { generateGeminiContentApi } from './gemini.js';
+import { copyToClipboard } from './helpers.js';
 
 const apiKey = ""; // Add your API key here
 
@@ -17,7 +17,6 @@ export default function App() {
   const [phoneDiscoveryType, setPhoneDiscoveryType] = useState('specific'); 
   const [generatingId, setGeneratingId] = useState(null);
   const [generatingType, setGeneratingType] = useState(null);
-  const [leadDetails, setLeadDetails] = useState(initialLeadDetails);
 
   const generateGeminiContent = async (leadId, type, rawData) => {
     setGeneratingId(leadId);
@@ -32,6 +31,8 @@ export default function App() {
     setGeneratingId(null);
     setGeneratingType(null);
   };
+  
+  const [leadDetails, setLeadDetails] = useState(initialLeadDetails);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -95,6 +96,7 @@ export default function App() {
       {isCapturing && <div className="fixed inset-0 bg-white z-[100] pointer-events-none capture-flash" />}
 
       <div className="max-w-2xl mx-auto space-y-6 pb-24">
+        
         {!selectedStage ? (
           <Dashboard 
             upType={upType} setUpType={setUpType} 
@@ -105,6 +107,7 @@ export default function App() {
             generateGeminiContent={generateGeminiContent} generatingId={generatingId} generatingType={generatingType} copyToClipboard={copyToClipboard}
           />
         ) : (
+          /* STAGE DETAIL VIEWS */
           <>
             <header className="flex items-center space-x-4 mb-8">
               <button onClick={() => setSelectedStage('')} className="flex items-center space-x-2 bg-white px-5 py-2.5 rounded-2xl border border-slate-200 text-slate-600 font-black text-[11px] uppercase shadow-sm">
@@ -117,6 +120,7 @@ export default function App() {
             <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden">
               <div className="p-8">
                 <div className="space-y-8">
+                  
                   <PhoneStages 
                     selectedStage={selectedStage} 
                     leadDetails={leadDetails} 
@@ -131,6 +135,7 @@ export default function App() {
                     handleInputChange={handleInputChange} 
                     setStatus={setStatus} 
                   />
+
                   <button onClick={() => {
                       if (selectedStage === 'Appointment' && leadDetails.apptStatus) handleCapture();
                       else if (selectedStage === 'Soft Close' && leadDetails.softClose) handleCapture();
