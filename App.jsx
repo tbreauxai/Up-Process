@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import Dashboard from './components/Dashboard';
-import PhoneStages from './components/PhoneStages';
-import LotStages from './components/LotStages';
-import { initialLeadDetails, lotChecklist, phoneChecklist } from './constants/data';
-import { generateGeminiContentApi } from './services/gemini';
-import { copyToClipboard } from './utils/helpers';
+import Dashboard from './components/Dashboard.jsx';
+import PhoneStages from './components/PhoneStages.jsx';
+import LotStages from './components/LotStages.jsx';
+import { initialLeadDetails, lotChecklist, phoneChecklist } from './constants/data.js';
+import { generateGeminiContentApi } from './services/gemini.js';
+import { copyToClipboard } from './utils/helpers.js';
 
 const apiKey = ""; // Add your API key here
 
