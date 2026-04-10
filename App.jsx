@@ -6,17 +6,19 @@ import LotStages from './LotStages.jsx';
 import { initialLeadDetails, lotChecklist, phoneChecklist } from './data.js';
 import { generateGeminiContentApi } from './gemini.js';
 import { copyToClipboard } from './helpers.js';
+import { useLocalStorage } from './useLocalStorage.js';
 
 const apiKey = ""; // Add your API key here
 
 export default function App() {
-  const [upType, setUpType] = useState('phone');
-  const [selectedStage, setSelectedStage] = useState('');
-  const [savedLeads, setSavedLeads] = useState([]);
+  const [upType, setUpType] = useLocalStorage('upType', 'phone');
+  const [selectedStage, setSelectedStage] = useLocalStorage('selectedStage', '');
+  const [savedLeads, setSavedLeads] = useLocalStorage('savedLeads', []);
   const [isCapturing, setIsCapturing] = useState(false);
-  const [phoneDiscoveryType, setPhoneDiscoveryType] = useState('specific'); 
+  const [phoneDiscoveryType, setPhoneDiscoveryType] = useLocalStorage('phoneDiscoveryType', 'specific'); 
   const [generatingId, setGeneratingId] = useState(null);
   const [generatingType, setGeneratingType] = useState(null);
+  const [leadDetails, setLeadDetails] = useLocalStorage('currentLeadDetails', initialLeadDetails);
 
   const generateGeminiContent = async (leadId, type, rawData) => {
     setGeneratingId(leadId);
@@ -31,8 +33,6 @@ export default function App() {
     setGeneratingId(null);
     setGeneratingType(null);
   };
-  
-  const [leadDetails, setLeadDetails] = useState(initialLeadDetails);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
